@@ -11,4 +11,8 @@
  */
 #define MAXNUM_CPU 8
 
+/* Memory map*/
+// UART Registers
+#define UART0 0x10000000L
+
 #endif /* __PLATFORM_H__ */
