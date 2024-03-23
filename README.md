@@ -11,6 +11,10 @@ In the future, BubbleOS will undergo a major overhaul and transition to Rust pro
 
 ## Memory Management
 ![Memory Management](.github/memory_management.png)
+
+The length of Memory is 128M = 8 managment pages * 4096 bytes * 4096 page size
+
 BubbleOS utilizes a page-based memory management system. The first 8 pages are dedicated to management, followed by real pages for data storage. Each byte within the management pages stores a flag, where the last two bits represent PAGE_LAST (indicating if the page is the last page of an allocation) and PAGE_TAKEN (indicating if the page is currently in use).
 
 For example, a flag value of 0x0000_0001 signifies that the page is currently in use and is not the last page of an allocation.
+
