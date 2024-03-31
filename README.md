@@ -8,6 +8,9 @@ This project serves as a practical learning resource for those interested in und
 
 ## Future Development
 In the future, BubbleOS will undergo a major overhaul and transition to Rust programming language. This transition will introduce advanced features including Virtual Memory support, File Systems implementation, and Network components integration.
+## Boot
+
+## UART
 
 ## Memory Management
 ![Memory Management](.github/memory_management.png)
@@ -18,3 +21,14 @@ BubbleOS utilizes a page-based memory management system. The first 8 pages are d
 
 For example, a flag value of 0x0000_0001 signifies that the page is currently in use and is not the last page of an allocation.
 
+## Cooperative Multitasking
+
+
+In Cooperative Multitasking, before a new task can be executed, the current one must voluntarily give up the CPU.
+
+* `mscratch`: A register in Machine mode to point current context
+* `ra(x1)`: General register to save the return address
+* `ret`: jump back to `ra`
+* `call`: will also store the next address of instruction into `ra`
+![cooperative](.github/cooperative.png)
+There are two tasks, A and B. Task A is running on the CPU. When it calls `switch_to` to switch to task B, it stores the address of the next instruction of task A in the `ra` register before entering the `switch_to` function in BubbleOS. Inside `switch_to`, it saves the context of task A into memory, then restores the context of task B from memory on top of that in order to execute the instructions for task B it `ret`(jump to the instruction in B).
