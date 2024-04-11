@@ -1,3 +1,7 @@
+#define LOAD		lw
+#define STORE		sw
+#define SIZE_REG	4
+
 .macro reg_save base
 	sw ra, 0(\base)
 	sw sp, 4(\base)
@@ -89,5 +93,34 @@ switch_to:
     reg_restore t6
 
     ret
+
+
+
+.globl trap_vector
+.balign 4
+trap_vector:
+	csrrw t6, mscratch, t6
+	reg_save t6
+
+	mv t5, t6
+	csrr t6, mscratch
+	STORE t6, 30 * SIZE_REG(t5)
+
+	csrw mscratch, t5
+
+	# call the C trap handler in trap.c
+	csrr a0, mepc
+	csrr a1, mcause
+	call trap_handler
+
+	# trap_handler will return the return address via a0
+	csrw mepc, a0
+
+	# restore context(registers).
+	csrr t6, mscratch
+	reg_restore t6
+
+	# return to whatever we were doing before trap.
+	mret
 
 .end
