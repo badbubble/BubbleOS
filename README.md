@@ -77,6 +77,11 @@ Trap initialize -> Top Half(Hardware, cannot be controled) -> Bottom Half(Our lo
 ### Platform-Level Interrupt Controller
 Because every hart only has one external interrupt pin, we need a hub to control all interruptions -- PLIC
 ![PLIC](.github/PLICArch.jpg)
+## Time interrupt
+It is a local interrupt cause by CLINT(Core Local Interrupt)
+1. mtime = 0 and mtiomcmp += INTERVAL
+2. wait for timer interrupt
+3. excute interrupt steps and set mtimecmp += INTERVAL
 
 ## Acknowledge
 * https://github.com/plctlab/riscv-operating-system-mooc
