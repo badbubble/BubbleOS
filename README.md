@@ -58,6 +58,26 @@ Trap initialize -> Top Half(Hardware, cannot be controled) -> Bottom Half(Our lo
   * mstatus,MPIE = 1
   * pc = mepc
 
+## External Interrupt
+* Interrupt
+  * Local interrupt
+    * software interrupt
+    * timer interrupt
+  * Global interrupt
+    * externrl interrupt
+
+
+* interrupt steps:
+  * Copy MIE from `mstatus` to MPIE and clean MIE to disable interrupt
+  * Copy next instruction address to `mepc`
+  * Set PC = `mtvec`
+  * Set `mcause` and `mtval`
+  * Copy previous to MPP in `mstatus` and Set current to M
+  
+### Platform-Level Interrupt Controller
+Because every hart only has one external interrupt pin, we need a hub to control all interruptions -- PLIC
+![PLIC](.github/PLICArch.jpg)
+
 ## Acknowledge
 * https://github.com/plctlab/riscv-operating-system-mooc
 * https://osblog.stephenmarz.com/
