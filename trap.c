@@ -2,6 +2,7 @@
 
 extern void trap_vector(void);
 extern void uart_isr(void);
+extern void timer_handler(void);
 
 void trap_init()
 {
@@ -40,7 +41,8 @@ reg_t trap_handler(reg_t epc, reg_t cause)
       uart_puts("software interruption!\n");
       break;
     case 7:
-      uart_puts("timer interruption!\n");
+			uart_puts("timer interruption!\n");
+			timer_handler();
       break;
     case 11:
       uart_puts("external interruption!\n");
