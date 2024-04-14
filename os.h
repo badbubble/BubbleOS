@@ -11,6 +11,7 @@
 // uart
 extern int uart_putc(char ch);
 extern void uart_puts(char *s);
+extern int uart_getc(void);
 
 // prinft
 extern int printf(const char *s, ...);
@@ -59,5 +60,8 @@ struct context {
 extern int  task_create(void (*task)(void));
 extern void task_delay(volatile int count);
 extern void task_yield();
+
+extern int plic_claim(void);
+extern void plic_complete(int irq);
 
 #endif
