@@ -21,18 +21,19 @@ void user_task0(void);
 void sched_init()
 {
     w_mscratch(0);
+    w_mie(r_mie() | MIE_MSIE);
 }
 
 void schedule()
-{
+{   
     if (_top <= 0)
     {
         panic("Num of task should be greater than zero!");
         return;
     }
     _current = (_current + 1) % _top;
-
     struct context *next = &(ctx_tasks[_current]);
+
     switch_to(next);
 }
 
@@ -41,7 +42,7 @@ int task_create(void (*start_routin)(void))
     if (_top < MAX_TASKS)
     {
         ctx_tasks[_top].sp = (reg_t)&task_stack[_top][STACK_SIZE];
-        ctx_tasks[_top].ra = (reg_t)start_routin;
+        ctx_tasks[_top].pc = (reg_t)start_routin;
         _top++;
         return 0;
     }
@@ -50,7 +51,8 @@ int task_create(void (*start_routin)(void))
 
 void task_yield()
 {
-    schedule();
+    int id = r_mhartid();
+	*(uint32_t*)CLINT_MSIP(id) = 1;
 }
 
 void task_delay(volatile int count)
