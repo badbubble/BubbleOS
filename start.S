@@ -23,6 +23,9 @@ _start:
 
     add sp, sp, t0
 
+    li	t0, 3 << 11 | 1 << 7
+	csrs	mstatus, t0
+
     j start_kernel
     
 park:
