@@ -10,8 +10,6 @@ void plic_init(void)
     *(uint32_t*)PLIC_MTHRESHOLD(hart) = 0;
     // allow external interrupts
     w_mie(r_mie() | MIE_MEIE);
-    // allow global interrupts
-    w_mstatus(r_mstatus() | MSTATUS_MIE);
 }
 
 int plic_claim(void)
