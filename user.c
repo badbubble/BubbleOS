@@ -19,7 +19,7 @@ void user_task0(void)
         #endif
         for(int i = 0; i < 5; i++)
         {
-            uart_puts("[Task 0] Critial section...\n");
+            uart_puts("[Task 0] Critical section...\n");
             task_delay(DELAY);
         }
         #ifdef USE_LOCK
