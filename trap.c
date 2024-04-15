@@ -3,6 +3,7 @@
 extern void trap_vector(void);
 extern void uart_isr(void);
 extern void timer_handler(void);
+extern void schedule(void);
 
 void trap_init()
 {
@@ -39,6 +40,9 @@ reg_t trap_handler(reg_t epc, reg_t cause)
     {
     case 3:
       uart_puts("software interruption!\n");
+      int id = r_mhartid();
+      *(uint32_t*)CLINT_MSIP(id) = 0;
+			schedule();
       break;
     case 7:
 			uart_puts("timer interruption!\n");
@@ -57,14 +61,14 @@ reg_t trap_handler(reg_t epc, reg_t cause)
   {
     /* Synchronous trap - exception */
     printf("Sync exceptions! Code = %ld\n", cause_code);
-    // panic("OOPS! What can I do!");
+    panic("OOPS! What can I do!");
     return_pc += 4;
   }
 
   return return_pc;
 }
 
-void trap_test()
+void trap_test1()
 {
   /*
    * Synchronous exception code = 7
