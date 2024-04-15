@@ -26,11 +26,10 @@ void start_kernel(void)
     timer_init();
     
     sched_init();
-
+    
     os_main();
 
     schedule();
-
     while (1)
     {
     }
