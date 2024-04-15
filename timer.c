@@ -1,6 +1,8 @@
 #include "os.h"
 #define TIMER_INTERVAL CLINT_TIMEBASE_FREQ
 
+extern void schedule(void);
+
 static uint32_t _tick = 0;
 
 void timer_load(int interval)
@@ -21,9 +23,6 @@ void timer_init()
 
 	/* enable machine-mode timer interrupts. */
 	w_mie(r_mie() | MIE_MTIE);
-
-	/* enable machine-mode global interrupts. */
-	w_mstatus(r_mstatus() | MSTATUS_MIE);
 }
 
 void timer_handler() 
@@ -32,4 +31,5 @@ void timer_handler()
 	printf("tick: %d\n", _tick);
 
 	timer_load(TIMER_INTERVAL);
+	schedule();
 }
