@@ -1,6 +1,9 @@
 #include "os.h"
 
-#define DELAY 10000
+#define DELAY 100000
+
+#define USE_LOCK
+
 
 void user_task0(void)
 {
@@ -10,6 +13,20 @@ void user_task0(void)
     while (1)
     {
         uart_puts("[Task 0] Running...\n");
+        #ifdef USE_LOCK
+        spin_lock();
+        uart_puts("[Task 0] Required Lock\n");
+        #endif
+        for(int i = 0; i < 5; i++)
+        {
+            uart_puts("[Task 0] Critial section...\n");
+            task_delay(DELAY);
+        }
+        #ifdef USE_LOCK
+        uart_puts("[Task 0] Release Lock\n");
+		spin_unlock();
+
+        #endif
         task_delay(DELAY);        
     }
 }
