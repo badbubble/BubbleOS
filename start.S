@@ -23,8 +23,24 @@ _start:
 
     add sp, sp, t0
 
-    li	t0, 3 << 11 | 1 << 7
+#ifdef CONFIG_SYSCALL
+	# qemu stuff
+    li      t0, 0xffffffff
+	csrw    pmpaddr0, t0
+	li      t0, 0xf
+	csrw    pmpcfg0, t0
+#endif
+
+#ifdef CONFIG_SYSCALL
+    # user
+	li	t0, 3 << 11
+	csrc	mstatus, t0
+#else
+    # machine
+	li	t0, 3 << 11 | 1 << 7
 	csrs	mstatus, t0
+#endif
+
 
     j start_kernel
     
