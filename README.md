@@ -1,6 +1,6 @@
 # BubbleOS: A RISC-V Operating System in C
 
-BubbleOS is an operating system for personal educational purposes, aimed at providing insight into the fundamentals of operating system development.
+BubbleOS is an operating system for fun, aimed at providing insight into the fundamentals of operating system development.
 ![os](.github/os.gif)
 ## Overview
 This project serves as a practical learning resource for those interested in understanding the essentials of OS development. It offers page memory management, preemptive/cooperative multitasking, trap(interrupts and exception handling), timer, spin lock, and system call.
